@@ -49,8 +49,15 @@
         }
         .info-card h2 { font-size: 1.4rem; margin-bottom: 15px; color: #8b5cf6; }
         .info-card p { line-height: 1.8; font-size: 1.05rem; }
-        .summary { font-size: 0.9rem; color: #9ca3af; margin-bottom: 10px; }
+        .summary { 
+            font-size: 0.9rem; color: #9ca3af; margin-bottom: 10px;
+            padding: 10px; background: #1a1a24; border-radius: 8px;
+        }
         .summary span { color: #f59e0b; font-weight: 600; }
+        .indice-item {
+            background: #1a1a24; padding: 12px; margin: 8px 0;
+            border-left: 3px solid #8b5cf6; border-radius: 6px;
+        }
         .solution-card {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
             border: 2px solid #ef4444;
@@ -172,13 +179,6 @@
         </div>
         <div id="masterFalsePistes" class="info-card"></div>
         <div id="masterRelations" class="info-card"></div>
-        <div class="info-card">
-            <h2>🔍 Indices à cacher (optionnel)</h2>
-            <p><strong>Dans le bureau du directeur :</strong></p>
-            <p>• Bouton rouge (Isaline) - VRAI indice</p>
-            <p id="masterIndices"></p>
-            <p>• Traces de pas</p>
-        </div>
         <button class="btn-back" onclick="showScreen('typeScreen')">← Retour</button>
     </div>
 </div>
@@ -189,26 +189,37 @@
             <h2 id="animatorName"></h2>
             <p id="animatorRole"></p>
         </div>
+        
+        <div class="info-card">
+            <h2>👥 Tes relations</h2>
+            <p class="summary">📌 <span id="relationsSummary"></span></p>
+            <div id="relationsText"></div>
+        </div>
+
         <div class="info-card">
             <h2>📖 Ton histoire</h2>
-            <p class="summary">📌 En bref : <span id="backstorySummary"></span></p>
+            <p class="summary">📌 <span id="backstorySummary"></span></p>
             <p id="backstoryText"></p>
         </div>
+
         <div class="info-card">
             <h2>📜 Ton alibi</h2>
-            <p class="summary">📌 En bref : <span id="alibiSummary"></span></p>
+            <p class="summary">📌 <span id="alibiSummary"></span></p>
             <p id="alibiText"></p>
         </div>
+
         <div class="info-card">
-            <h2>💡 Indice à donner</h2>
-            <p class="summary">📌 En bref : <span id="indiceSummary"></span></p>
-            <p id="indiceText"></p>
+            <h2>💡 Indices à donner (dans l'ordre)</h2>
+            <p class="summary">📌 Donne ces indices progressivement, du moins au plus important</p>
+            <div id="indicesText"></div>
         </div>
+
         <div class="info-card">
             <h2>🔒 Ton secret</h2>
-            <p class="summary">📌 En bref : <span id="secretSummary"></span></p>
+            <p class="summary">📌 <span id="secretSummary"></span></p>
             <p id="secretText"></p>
         </div>
+
         <button class="btn-back" onclick="showScreen('animatorSelectScreen')">← Retour</button>
     </div>
 </div>
@@ -236,7 +247,7 @@
         </div>
         <div class="info-card" style="background: #dbeafe; border-color: #1e40af;">
             <h2 style="color: #1e40af;">💡 Conseil</h2>
-            <p style="color: #000;">Notez tout ce que disent les suspects ! Comparez leurs témoignages. Qui se contredit ? Qui ment ?</p>
+            <p style="color: #000;">Posez plusieurs questions à chaque suspect ! Ils ont plusieurs indices à vous donner. Plus vous insistez, plus ils en disent !</p>
         </div>
         <button class="btn-back" onclick="showScreen('teamSelectScreen')">← Retour</button>
     </div>
@@ -248,69 +259,105 @@
     const charactersWithQuentin = {
         adrien: {
             name: 'Adrien', role: 'Monsieur Rose - Le Cuisinier', emoji: '🩷',
-            backstorySummary: "Cuisinier depuis 3 ans, cousin d'Isaline, meilleur ami de Léo, disputé avec Dubois hier",
-            backstory: "Tu travailles au centre depuis 3 ans. Tu es passionné de cuisine et tu rêves d'ouvrir ton propre restaurant un jour. Ta cousine Isaline t'a aidé à décrocher ce job quand tu en avais besoin. Ton meilleur ami Léo est comme un frère pour toi. Tu es quelqu'un de loyal qui protège ses proches. Monsieur Dubois te frustrait énormément car il refusait toujours d'acheter de bons ingrédients. Hier, vous vous êtes VIOLEMMENT disputés dans son bureau.",
-            alibiSummary: "À la cuisine 17h-19h, entendu la dispute à 18h20, sorti fumer 18h10-18h20",
-            alibi: "J'étais à la cuisine entre 17h et 19h pour préparer le dîner. Vers 18h20, j'ai entendu des éclats de voix venant du bureau du directeur. Ça criait fort. Mon ami Léo est venu me voir juste après, il avait l'air inquiet. Mais j'avoue... entre 18h10 et 18h20, je suis sorti fumer une cigarette dehors, près de la porte arrière. Personne ne m'a vu.",
-            indiceSummary: "J'ai reconnu la voix d'Isaline qui criait + vu Quentin rentrer paniqué à 18h25",
-            indice: "J'ai reconnu la voix de ma cousine Isaline dans la dispute. Elle criait 'Vous êtes injuste !' Elle avait l'air vraiment en colère, ce qui ne lui ressemble pas du tout - Isaline est d'habitude très calme. Puis j'ai entendu un grand bruit, comme quelque chose qui tombe. MAIS... j'ai aussi vu Quentin qui rentrait précipitamment dans le bâtiment juste après, vers 18h25. Il avait l'air paniqué.",
-            secretSummary: "Dispute violente avec Dubois hier + bouton rose perdu (retrouvé dans le bureau)",
-            secret: "Tu es le cousin d'Isaline, vous avez grandi ensemble. Tu la protégerais coûte que coûte car elle t'a aidé dans un moment difficile de ta vie. MAIS HIER, tu as eu une ÉNORME dispute avec Monsieur Dubois dans son bureau - tu as même crié 'Un jour vous le paierez !' et claqué la porte. Plusieurs personnes l'ont entendu. Tu as aussi perdu un de tes boutons roses de ta veste ce jour-là... mais tu ne sais pas où."
+            relationsSummary: "Cousin d'Isaline (très proches), meilleur ami de Léo (10 ans)",
+            relations: "🔴 <strong>Isaline</strong> : Ta cousine, vous avez grandi ensemble. Très proches.<br>🔵 <strong>Léo</strong> : Ton meilleur ami depuis 10 ans, comme un frère.<br>🟢 <strong>Quentin</strong> : Tu le connais mais vous n'êtes pas spécialement proches.",
+            backstorySummary: "Cuisinier passionné, rêve d'ouvrir un restaurant, frustré par Dubois",
+            backstory: "Tu travailles au centre depuis 3 ans. Tu es passionné de cuisine et tu rêves d'ouvrir ton propre restaurant un jour. Ta cousine Isaline t'a aidé à décrocher ce job quand tu en avais besoin. Ton meilleur ami Léo est comme un frère pour toi. Tu es quelqu'un de loyal qui protège ses proches. Monsieur Dubois te frustrait énormément car il refusait toujours d'acheter de bons ingrédients.",
+            alibiSummary: "Cuisine 17h-19h, sorti fumer 18h10-18h20 (personne ne l'a vu)",
+            alibi: "J'étais à la cuisine entre 17h et 19h pour préparer le dîner. Vers 18h20, j'ai entendu des éclats de voix venant du bureau du directeur. Mon ami Léo est venu me voir juste après, il avait l'air inquiet. Mais j'avoue... entre 18h10 et 18h20, je suis sorti fumer une cigarette dehors. Personne ne m'a vu.",
+            indices: [
+                "🔹 <strong>INDICE 1</strong> (si on te demande ce que tu faisais) : J'étais à la cuisine ce soir. Je préparais le dîner comme d'habitude, rien de spécial.",
+                "🔹 <strong>INDICE 2</strong> (si on insiste ou demande si tu as entendu quelque chose) : Vers 18h20, j'ai entendu des éclats de voix venant du bureau du directeur. Ça criait fort mais je n'ai pas voulu m'en mêler.",
+                "🔹 <strong>INDICE 3</strong> (si on demande QUI criait) : J'ai reconnu la voix de ma cousine Isaline. Elle criait 'Vous êtes injuste !' Ça ne lui ressemble pas du tout. Puis j'ai entendu un grand bruit, comme quelque chose qui tombe.",
+                "🔹 <strong>INDICE 4</strong> (si on demande si tu as vu quelqu'un d'autre) : Juste après, vers 18h25, j'ai vu Quentin qui rentrait précipitamment dans le bâtiment. Il avait l'air paniqué, il regardait partout."
+            ],
+            secretSummary: "Dispute VIOLENTE avec Dubois hier ('Un jour vous le paierez !') + bouton rose perdu",
+            secret: "Tu es le cousin d'Isaline. Tu la protégerais coûte que coûte. MAIS HIER, tu as eu une ÉNORME dispute avec Dubois dans son bureau - tu as même crié 'Un jour vous le paierez !' et claqué la porte. Plusieurs personnes l'ont entendu. Tu as aussi perdu un bouton rose de ta veste ce jour-là."
         },
         quentin: {
             name: 'Quentin', role: 'Monsieur Blanc - Le Jardinier', emoji: '⚪',
-            backstorySummary: "Jardinier depuis 5 ans, en couple secret avec Chloé, déteste Léo, humilié par Dubois",
-            backstory: "Tu es jardinier au centre depuis 5 ans. Tu adores la nature et les plantes. Il y a 2 ans, Léo t'a trahi en disant à tout le monde un secret que tu lui avais confié, depuis vous ne vous parlez plus. Il y a 6 mois, tu es tombé amoureux de Chloé et vous êtes en couple, mais personne ne le sait car c'est interdit dans le règlement du centre. La semaine dernière, Monsieur Dubois t'a humilié devant tout le monde en disant que tes jardins étaient 'moches'.",
-            alibiSummary: "Dehors 17h30-18h45, écouteurs, mais rentré aux toilettes 18h15-18h30",
-            alibi: "Je taillais les haies dehors entre 17h30 et 18h45. Ma copine Chloé (on est ensemble en secret depuis 6 mois) m'a envoyé un SMS d'urgence à 18h25 pour me dire que quelque chose de grave s'était passé. J'avais mes écouteurs, j'ai rien entendu. MAIS... en vérité, entre 18h15 et 18h30, j'ai fait une pause et je suis rentré dans le bâtiment pour aller aux toilettes. Personne ne m'a vu entrer.",
-            indiceSummary: "Isaline voulait 'dire ses 4 vérités' au directeur + Léo traînait bizarrement près du bureau",
-            indice: "Ce matin, j'ai entendu Isaline dire à sa meilleure amie Chloé qu'elle allait 'enfin dire ses quatre vérités au directeur aujourd'hui'. Chloé essayait de la calmer mais Isaline était très déterminée. Elle avait les poings serrés. MAIS j'ai aussi remarqué que Léo traînait bizarrement près du bureau du directeur vers 18h15. Il regardait partout comme s'il vérifiait que personne ne le voyait.",
-            secretSummary: "A dit 'Dubois le paiera' + couple secret avec Chloé + gant blanc retrouvé dans le bureau",
-            secret: "Tu détestes Monsieur Dubois car il t'a humilié devant tout le monde la semaine dernière. Hier, tu as dit devant plusieurs personnes : 'Un jour Dubois le paiera pour tout ce qu'il nous fait'. Tu es aussi en couple secret avec Chloé depuis 6 mois - si on vous découvre, vous pourriez être virés. Et tu ne supportes pas Léo depuis qu'il a trahi ta confiance il y a 2 ans. PIRE : on a retrouvé un de tes gants de jardinage blancs dans le bureau du directeur... mais tu ne sais pas comment il est arrivé là !"
+            relationsSummary: "Couple secret avec Chloé (6 mois), déteste Léo (trahi il y a 2 ans)",
+            relations: "🟡 <strong>Chloé</strong> : Ton amoureuse secrète depuis 6 mois. Personne ne le sait (interdit !).<br>🔵 <strong>Léo</strong> : Tu le DÉTESTES. Il t'a trahi il y a 2 ans en révélant ton secret.<br>🔴 <strong>Isaline</strong> : Amie de Chloé, donc tu la connais bien.",
+            backstorySummary: "Jardinier 5 ans, amoureux de Chloé (secret), humilié par Dubois",
+            backstory: "Tu es jardinier au centre depuis 5 ans. Tu adores la nature et les plantes. Il y a 2 ans, Léo t'a trahi en disant à tout le monde un secret que tu lui avais confié. Depuis, vous ne vous parlez plus. Il y a 6 mois, tu es tombé amoureux de Chloé et vous êtes en couple secret (c'est interdit !). La semaine dernière, Dubois t'a humilié devant tout le monde.",
+            alibiSummary: "Dehors 17h30-18h45 avec écouteurs, MAIS rentré aux toilettes 18h15-18h30",
+            alibi: "Je taillais les haies dehors entre 17h30 et 18h45. Ma copine Chloé (secret depuis 6 mois) m'a envoyé un SMS d'urgence à 18h25. J'avais mes écouteurs. MAIS entre 18h15 et 18h30, j'ai fait une pause et je suis rentré aux toilettes. Personne ne m'a vu.",
+            indices: [
+                "🔹 <strong>INDICE 1</strong> (si on demande où tu étais) : Je taillais les haies dehors. J'avais mes écouteurs, j'ai rien entendu.",
+                "🔹 <strong>INDICE 2</strong> (si on demande si quelqu'un t'a vu) : Personne dehors. Mais Chloé m'a envoyé un SMS vers 18h25 pour me dire que quelque chose de grave s'était passé.",
+                "🔹 <strong>INDICE 3</strong> (si on demande ce que tu sais sur Isaline) : Ce matin, j'ai entendu Isaline dire à Chloé qu'elle allait 'enfin dire ses quatre vérités au directeur aujourd'hui'. Chloé essayait de la calmer mais Isaline était très déterminée.",
+                "🔹 <strong>INDICE 4</strong> (si on demande si tu as vu quelqu'un d'autre suspect) : J'ai remarqué que Léo traînait bizarrement près du bureau du directeur vers 18h15. Il regardait partout comme s'il vérifiait que personne ne le voyait."
+            ],
+            secretSummary: "A dit 'Dubois le paiera' + couple secret Chloé + gant blanc retrouvé dans le bureau",
+            secret: "Tu détestes Dubois. Hier, tu as dit : 'Un jour Dubois le paiera'. Tu es en couple secret avec Chloé - si on vous découvre, virés. Tu détestes Léo. PIRE : ton gant de jardinage blanc a été retrouvé dans le bureau du directeur !"
         },
         leo: {
             name: 'Léo', role: 'Monsieur Bleu - L\'Agent d\'entretien', emoji: '🔵',
-            backstorySummary: "Agent d'entretien depuis 4 ans, meilleur ami d'Adrien, chantage de Dubois (200€)",
-            backstory: "Tu travailles au centre depuis 4 ans. Adrien est ton meilleur ami, vous vous connaissez depuis le collège. Il y a 2 ans, tu as fait une grosse erreur : tu as révélé un secret de Quentin sans faire exprès, et depuis il te déteste. Tu le regrettes mais il refuse de te parler. Le mois dernier, tu as pris 50€ dans la petite caisse pour aider ta mère qui avait des problèmes d'argent. Monsieur Dubois l'a découvert et te faisait chanter. Il menaçait d'appeler la police si tu ne lui donnais pas 200€ avant ce soir.",
-            alibiSummary: "Couloirs 18h-19h, vu Isaline sortir paniquée à 18h25, passé devant bureau à 18h10",
-            alibi: "Je nettoyais les couloirs entre 18h et 19h. Mon meilleur ami Adrien était à la cuisine. Vers 18h25, j'ai vu Isaline sortir du bureau du directeur en courant. Elle tremblait, elle avait l'air en panique totale. Je lui ai demandé si ça allait mais elle ne m'a même pas regardé. MAIS... en vérité, j'étais passé devant le bureau vers 18h10 et j'ai entendu Dubois crier au téléphone. J'ai même pensé entrer pour régler nos comptes à propos du chantage.",
-            indiceSummary: "Dubois par terre à 18h40 + boutons rouge (Isaline), rose (Adrien) et gant blanc (Quentin)",
-            indice: "Quand je suis passé nettoyer le bureau à 18h40, j'ai vu Monsieur Dubois par terre, inconscient. Il y avait du désordre, des papiers partout, comme s'il y avait eu une bagarre. J'ai remarqué un bouton rouge par terre près de la porte, exactement comme ceux du chemisier d'Isaline qu'elle portait ce matin. MAIS il y avait aussi un bouton rose, comme ceux de la veste d'Adrien, sous le bureau. Et bizarrement, un gant de jardinage blanc était posé sur la chaise.",
-            secretSummary: "Meilleur ami d'Adrien depuis 10 ans + chantage de Dubois : 200€ à payer ce soir sinon police",
-            secret: "Tu es le meilleur ami d'Adrien depuis 10 ans, vous vous dites absolument tout. Tu détestes Quentin mais tu regrettes ta trahison d'il y a 2 ans. SURTOUT : tu as volé 50€ dans la petite caisse le mois dernier pour aider ta mère, et Monsieur Dubois le savait - il te faisait CHANTER en te menaçant d'appeler la police. Il exigeait 200€ avant ce soir, sinon il te dénonçait. Tu étais DÉSESPÉRÉ. Tu avais un ÉNORME mobile pour l'attaquer."
+            relationsSummary: "Meilleur ami d'Adrien (10 ans), ex de Gladys, ennemi de Quentin",
+            relations: "🩷 <strong>Adrien</strong> : Ton meilleur ami depuis 10 ans, comme un frère.<br>🟠 <strong>Gladys</strong> : Ton ex depuis 6 mois. Vous êtes restés amis.<br>🟢 <strong>Quentin</strong> : Il te déteste depuis 2 ans (tu as révélé son secret sans faire exprès).",
+            backstorySummary: "Agent d'entretien 4 ans, volé 50€, Dubois le fait CHANTER (200€ ce soir sinon police)",
+            backstory: "Tu travailles au centre depuis 4 ans. Adrien est ton meilleur ami depuis le collège. Il y a 2 ans, tu as révélé un secret de Quentin sans faire exprès. Il te déteste. Le mois dernier, tu as pris 50€ dans la caisse pour aider ta mère. Dubois l'a découvert et te faisait chanter : 200€ ce soir sinon police.",
+            alibiSummary: "Couloirs 18h-19h, vu Isaline sortir paniquée à 18h25, passé devant bureau 18h10",
+            alibi: "Je nettoyais les couloirs entre 18h et 19h. Mon meilleur ami Adrien était à la cuisine. Vers 18h25, j'ai vu Isaline sortir du bureau en courant. Elle tremblait, paniquée. Je lui ai demandé si ça allait mais elle ne m'a pas regardé. En vérité, j'étais passé devant le bureau vers 18h10.",
+            indices: [
+                "🔹 <strong>INDICE 1</strong> (si on demande ce que tu faisais) : Je nettoyais les couloirs entre 18h et 19h. Mon travail habituel.",
+                "🔹 <strong>INDICE 2</strong> (si on demande si tu as vu quelqu'un) : Vers 18h25, j'ai vu Isaline sortir du bureau du directeur en courant. Elle tremblait, elle avait l'air en panique totale.",
+                "🔹 <strong>INDICE 3</strong> (si on demande ce que tu as vu dans le bureau) : Quand je suis passé nettoyer le bureau à 18h40, j'ai vu Monsieur Dubois par terre, inconscient. Il y avait du désordre partout, comme s'il y avait eu une bagarre.",
+                "🔹 <strong>INDICE 4</strong> (si on insiste sur les preuves) : J'ai remarqué un bouton rouge par terre, comme ceux du chemisier d'Isaline. Mais il y avait aussi un bouton rose (comme ceux d'Adrien) sous le bureau, et un gant blanc de jardinage sur la chaise."
+            ],
+            secretSummary: "Dubois le faisait CHANTER : 200€ ce soir sinon police. Mobile ÉNORME.",
+            secret: "Tu es le meilleur ami d'Adrien depuis 10 ans. SURTOUT : tu as volé 50€ et Dubois te faisait CHANTER. Il exigeait 200€ ce soir, sinon il te dénonçait. Tu étais DÉSESPÉRÉ. Tu avais un ÉNORME mobile pour l'attaquer."
         },
         chloe: {
             name: 'Chloé', role: 'Mademoiselle Jaune - La Secrétaire', emoji: '🟡',
-            backstorySummary: "Secrétaire depuis 2 ans, meilleure amie d'Isaline (25 ans), couple secret avec Quentin",
-            backstory: "Tu es secrétaire au centre depuis 2 ans. Isaline est ta meilleure amie depuis la maternelle, vous avez 25 ans de complicité. Il y a 6 mois, tu es tombée amoureuse de Quentin le jardinier. Vous êtes en couple secret car c'est interdit par le règlement. Tu admirais beaucoup Monsieur Dubois au début car il t'a embauchée quand personne ne voulait de toi, mais ces derniers mois il est devenu méchant avec tout le monde. Tu es quelqu'un de sensible et loyale... mais tu cacherais la vérité pour protéger ceux que tu aimes.",
-            alibiSummary: "Accueil 17h-19h30, absente 5 min aux toilettes à 18h20",
-            alibi: "J'étais à l'accueil entre 17h et 19h30. Mon petit ami Quentin (personne ne le sait, on est ensemble depuis 6 mois) travaillait dehors. Vers 18h15, ma meilleure amie depuis 25 ans, Isaline, est passée devant moi pour aller au bureau du directeur. Elle m'a fait un clin d'œil en disant 'Souhaite-moi bonne chance, je vais enfin lui dire ce que je pense'. MAIS... j'ai quitté mon poste 5 minutes vers 18h20 pour aller aux toilettes. Personne ne m'a vue.",
-            indiceSummary: "Isaline confuse à 18h30, chemisier déchiré + Adrien avec mains tremblantes",
-            indice: "Vers 18h30, j'ai croisé Isaline dans le couloir. Elle tremblait de partout, son chemisier rouge était déchiré avec un bouton qui manquait, et elle m'a dit d'une voix complètement perdue : 'Je... je ne comprends pas ce qui s'est passé, Chloé... tout est flou... pourquoi je suis là ?'. Elle avait l'air totalement perdue, comme si elle ne savait plus où elle était. J'ai tout de suite envoyé un SMS d'urgence à Quentin. MAIS j'ai AUSSI vu Adrien qui sortait des toilettes à ce moment-là, et il avait les mains qui tremblaient.",
-            secretSummary: "Meilleure amie d'Isaline depuis 25 ans + Isaline lui a dit avoir 'un plan' + prête à mentir pour protéger",
-            secret: "Tu es la meilleure amie d'Isaline depuis que vous avez 5 ans - c'est comme une sœur pour toi. Tu es aussi en couple secret avec Quentin depuis 6 mois, si quelqu'un l'apprend vous serez virés tous les deux. Tu protégerais Isaline ou Quentin coûte que coûte. MAIS SURTOUT : ce matin, Isaline t'a confié qu'elle avait 'un plan' pour 'faire payer Dubois' et elle t'a demandé de ne rien dire à personne. Tu as promis. Tu pourrais MENTIR pour la protéger."
+            relationsSummary: "Meilleure amie d'Isaline (25 ans !), couple secret avec Quentin (6 mois)",
+            relations: "🔴 <strong>Isaline</strong> : Ta meilleure amie depuis la maternelle. 25 ans d'amitié ! Comme une sœur.<br>🟢 <strong>Quentin</strong> : Ton petit ami secret depuis 6 mois. Personne ne le sait (interdit !).<br>🩷 <strong>Adrien</strong> : Le cousin d'Isaline, tu le connais bien.",
+            backstorySummary: "Secrétaire 2 ans, meilleure amie d'Isaline (depuis la maternelle), loyale mais prête à mentir pour protéger",
+            backstory: "Tu es secrétaire depuis 2 ans. Isaline est ta meilleure amie depuis la maternelle (25 ans !). Il y a 6 mois, tu es tombée amoureuse de Quentin (couple secret, interdit). Dubois t'a embauchée quand personne ne voulait de toi. Tu es sensible et loyale, mais tu cacherais la vérité pour protéger tes proches.",
+            alibiSummary: "Accueil 17h-19h30, Isaline passée à 18h15, absente 5 min toilettes à 18h20",
+            alibi: "J'étais à l'accueil entre 17h et 19h30. Mon petit ami Quentin (secret) travaillait dehors. Vers 18h15, Isaline est passée pour aller au bureau. Elle m'a fait un clin d'œil : 'Souhaite-moi bonne chance'. Mais j'ai quitté mon poste 5 min vers 18h20 pour les toilettes.",
+            indices: [
+                "🔹 <strong>INDICE 1</strong> (si on demande où tu étais) : J'étais à l'accueil toute la soirée. C'est mon poste habituel.",
+                "🔹 <strong>INDICE 2</strong> (si on demande si tu as vu Isaline) : Oui, vers 18h15, ma meilleure amie Isaline est passée devant moi. Elle allait au bureau du directeur pour lui demander son augmentation.",
+                "🔹 <strong>INDICE 3</strong> (si on demande comment était Isaline après) : Vers 18h30, j'ai croisé Isaline dans le couloir. Elle tremblait de partout, son chemisier rouge était déchiré avec un bouton manquant. Elle m'a dit d'une voix perdue : 'Je ne comprends pas... tout est flou...'",
+                "🔹 <strong>INDICE 4</strong> (si on demande si tu as vu quelqu'un d'autre suspect) : J'ai aussi vu Adrien qui sortait des toilettes à ce moment-là. Il avait les mains qui tremblaient."
+            ],
+            secretSummary: "Isaline lui a dit avoir 'un plan' pour 'faire payer Dubois' + prête à MENTIR",
+            secret: "Tu es la meilleure amie d'Isaline depuis 25 ans. Couple secret avec Quentin - si découverts, virés. MAIS SURTOUT : ce matin, Isaline t'a confié avoir 'un plan' pour 'faire payer Dubois'. Tu as promis de ne rien dire. Tu pourrais MENTIR pour la protéger."
         },
         isaline: {
             name: 'Isaline', role: 'Madame Rouge - L\'Animatrice', emoji: '🔴',
-            backstorySummary: "Animatrice depuis 4 ans, cousine d'Adrien, meilleure amie de Chloé, oublie souvent des choses",
-            backstory: "Tu es animatrice au centre depuis 4 ans et tu adores ton métier. Tu as aidé ton cousin Adrien à se faire embaucher il y a 3 ans quand il avait besoin d'argent. Chloé est ta meilleure amie depuis la maternelle, vous êtes inséparables. Tu es quelqu'un de gentil et calme d'habitude, mais ces derniers mois Monsieur Dubois te mettait une pression énorme. Tu travailles deux fois plus que les autres mais tu gagnes le moins. Aujourd'hui, tu as décidé de demander ton augmentation après 4 ans sans jamais en avoir eu.",
-            alibiSummary: "RDV avec Dubois à 18h15 pour augmentation, puis TROU NOIR, retrouvée aux toilettes à 18h30",
-            alibi: "J'avais rendez-vous avec Monsieur Dubois à 18h15 pour enfin lui demander mon augmentation après 4 ans. Je suis allée à son bureau, on a commencé à discuter de ma demande, et... après... je ne me souviens plus très bien. C'est bizarre, j'ai des trous noirs dans ma mémoire. Je me suis retrouvée aux toilettes vers 18h30 sans savoir comment j'y étais arrivée. Ma meilleure amie Chloé m'a trouvée là-bas, j'étais complètement confuse et mon chemisier était déchiré avec un bouton manquant.",
-            indiceSummary: "Quentin a dit 'Dubois le paiera' hier + Léo était nerveux ce matin",
-            indice: "Mon cousin Adrien m'a dit ce matin que Quentin détestait vraiment le directeur depuis qu'il s'est fait humilier la semaine dernière. Hier après-midi, Quentin a même dit devant moi et Chloé : 'Un jour Dubois le paiera pour tout ce qu'il nous fait'. Ça m'a fait un peu peur, il avait l'air très sérieux. MAIS j'ai aussi vu Léo qui semblait très nerveux ce matin. Il m'a demandé si je savais où était Monsieur Dubois, ce qui était étrange.",
-            secretSummary: "Oublie souvent des petites choses + GROS trou de mémoire entre 18h15 et 18h30",
-            secret: "Tu es la meilleure amie de Chloé depuis 25 ans et la cousine d'Adrien. Ces derniers temps, tu oublies souvent des petites choses - où tu as posé tes clés, ce que tu devais faire, des conversations entières parfois. Ça t'inquiète un peu mais tu n'en parles à personne. Aujourd'hui, tu as un GROS trou de mémoire entre 18h15 et 18h30. Tu ne te souviens absolument de RIEN. C'est flou, comme un rêve. ⚠️ JOUE la confusion totale - tu es sincèrement perdue et tu ne comprends pas ce qui t'arrive."
+            relationsSummary: "Cousine d'Adrien (très proches), meilleure amie de Chloé (25 ans)",
+            relations: "🩷 <strong>Adrien</strong> : Ton cousin, vous avez grandi ensemble. C'est toi qui l'as aidé à décrocher ce job.<br>🟡 <strong>Chloé</strong> : Ta meilleure amie depuis la maternelle. 25 ans d'amitié ! Inséparables.<br>🔵 <strong>Léo</strong> : Le meilleur ami d'Adrien, tu le connais bien.",
+            backstorySummary: "Animatrice 4 ans, gentille, oublie souvent des choses, demande son augmentation aujourd'hui",
+            backstory: "Tu es animatrice depuis 4 ans. Tu as aidé ton cousin Adrien à se faire embaucher il y a 3 ans. Chloé est ta meilleure amie depuis la maternelle. Tu es gentille et calme, mais Dubois te mettait une pression énorme. Tu travailles 2x plus que les autres mais gagnes le moins. Aujourd'hui, tu demandes ton augmentation.",
+            alibiSummary: "RDV Dubois 18h15 pour augmentation, puis TROU NOIR, retrouvée toilettes 18h30",
+            alibi: "J'avais RDV avec Dubois à 18h15 pour mon augmentation. Je suis allée à son bureau, on a commencé à discuter et... après... je ne me souviens plus. C'est bizarre. Je me suis retrouvée aux toilettes vers 18h30. Chloé m'a trouvée, j'étais confuse, chemisier déchiré.",
+            indices: [
+                "🔹 <strong>INDICE 1</strong> (si on demande où tu étais) : J'avais rendez-vous avec Monsieur Dubois à 18h15 pour lui demander mon augmentation après 4 ans.",
+                "🔹 <strong>INDICE 2</strong> (si on demande ce qui s'est passé) : Je suis allée à son bureau, on a commencé à parler de ma demande et... après... je ne me souviens plus très bien. J'ai des trous noirs dans ma mémoire.",
+                "🔹 <strong>INDICE 3</strong> (si on demande pourquoi tu ne te souviens pas) : Je ne comprends pas ce qui m'arrive. Ces derniers temps, j'oublie souvent des petites choses. Mais là, c'est un GROS trou. Je me suis retrouvée aux toilettes vers 18h30 sans savoir comment.",
+                "🔹 <strong>INDICE 4</strong> (si on demande si tu soupçonnes quelqu'un) : Mon cousin Adrien m'a dit que Quentin détestait vraiment le directeur. Hier, Quentin a dit : 'Un jour Dubois le paiera'. J'ai aussi vu Léo très nerveux ce matin."
+            ],
+            secretSummary: "Oublie souvent des choses + GROS trou mémoire 18h15-18h30. Ne se souvient de RIEN.",
+            secret: "Tu es la meilleure amie de Chloé et la cousine d'Adrien. Tu oublies souvent des petites choses. Aujourd'hui, GROS trou de mémoire entre 18h15 et 18h30. Tu ne te souviens de RIEN. C'est flou. ⚠️ JOUE la confusion totale - tu ne comprends pas ce qui t'arrive."
         },
         gladys: {
             name: 'Gladys', role: 'Madame Orange - L\'Infirmière', emoji: '🟠',
-            backstorySummary: "Infirmière depuis 7 ans, ex de Léo, très proche de Dubois, sait tout sur tout le monde",
-            backstory: "Tu es infirmière au centre depuis 7 ans. Tu es quelqu'un de discret et attentionné. Il y a 6 mois, tu as rompu avec Léo car vous n'étiez plus sur la même longueur d'onde, mais vous êtes restés en bons termes. Monsieur Dubois venait souvent te voir à l'infirmerie pour te confier ses problèmes - vous étiez proches. Il te faisait confiance et te racontait tout. Aujourd'hui, il est venu te voir à 17h car il avait mal à la tête. Tu lui as donné de l'aspirine.",
-            alibiSummary: "Infirmerie 17h-19h, Dubois venu à 17h pour aspirine, entendu cris à 18h20",
-            alibi: "J'étais à l'infirmerie entre 17h et 19h pour ranger les médicaments et mettre à jour le registre des soins. Monsieur Dubois est venu me voir à 17h car il avait mal à la tête, je lui ai donné de l'aspirine. On a discuté 10 minutes, il m'a dit qu'il avait un rendez-vous important à 18h15 avec Isaline. Après son départ, je suis restée à l'infirmerie. MAIS... j'avoue que vers 18h20, j'ai entendu des cris venant du bureau et je me suis approchée du couloir pour écouter. Je n'ai vu personne.",
-            indiceSummary: "Dubois allait refuser l'augmentation d'Isaline + Isaline oublie souvent des choses + explication médicale sur pertes de mémoire",
-            indice: "Monsieur Dubois m'a confié à 17h qu'il allait refuser l'augmentation d'Isaline car 'elle ne le méritait pas'. Il avait l'air très décidé et un peu méchant. Il m'a aussi dit que Léo lui devait de l'argent et qu'il allait 'le faire payer' ce soir. MAIS j'ai aussi remarqué quelque chose : ces dernières semaines, Isaline venait souvent me voir car elle oubliait plein de petites choses - ses clés, des rendez-vous, où elle avait rangé des objets. Elle me demandait si c'était normal. En tant qu'infirmière, je sais qu'un choc émotionnel ou un grand stress peut causer des pertes de mémoire temporaires, comme un mécanisme de protection du cerveau.",
-            secretSummary: "Ex de Léo depuis 6 mois + sait TOUT sur tout le monde + mouchoir orange retrouvé dans le bureau",
-            secret: "Tu es l'ex de Léo depuis 6 mois, mais vous êtes restés amis. Monsieur Dubois te faisait confiance et te racontait TOUT - tu savais donc pour le chantage de Léo, les problèmes avec Quentin, la dispute avec Adrien. Tu es la personne qui SAIT LE PLUS de choses sur tout le monde. Tu sais aussi qu'Isaline a des petits trous de mémoire depuis quelques semaines à cause du stress. PIRE : on a retrouvé ton mouchoir orange avec tes initiales 'G.M.' dans le bureau du directeur... mais tu ne te souviens pas l'avoir perdu là-bas ! Tu l'avais peut-être laissé quand tu as donné l'aspirine à Dubois à 17h ?"
+            relationsSummary: "Ex de Léo (6 mois, restés amis), très proche de Dubois (il lui confiait tout)",
+            relations: "🔵 <strong>Léo</strong> : Ton ex depuis 6 mois. Vous avez rompu mais êtes restés amis.<br>👨‍💼 <strong>Dubois</strong> : Très proche de toi. Il venait souvent te confier ses problèmes à l'infirmerie.<br>🔴 <strong>Isaline</strong> : Tu la connais, elle venait souvent te voir ces dernières semaines.",
+            backstorySummary: "Infirmière 7 ans, discrète, sait TOUT sur tout le monde (Dubois lui confiait tout)",
+            backstory: "Tu es infirmière depuis 7 ans. Discrète et attentionnée. Il y a 6 mois, tu as rompu avec Léo (restés amis). Dubois venait souvent te confier ses problèmes - vous étiez proches. Il te racontait tout. Aujourd'hui, il est venu à 17h pour mal de tête. Tu lui as donné de l'aspirine.",
+            alibiSummary: "Infirmerie 17h-19h, Dubois venu 17h pour aspirine, entendu cris 18h20",
+            alibi: "J'étais à l'infirmerie entre 17h et 19h. Dubois est venu à 17h pour mal de tête. On a discuté 10 min, il m'a dit avoir un RDV à 18h15 avec Isaline. Après son départ, je suis restée à l'infirmerie. Vers 18h20, j'ai entendu des cris du bureau.",
+            indices: [
+                "🔹 <strong>INDICE 1</strong> (si on demande où tu étais) : J'étais à l'infirmerie toute la soirée. Je rangeais les médicaments et mettais à jour le registre.",
+                "🔹 <strong>INDICE 2</strong> (si on demande si tu as vu Dubois) : Oui, Monsieur Dubois est venu me voir à 17h car il avait mal à la tête. Je lui ai donné de l'aspirine. Il m'a dit qu'il avait un rendez-vous important à 18h15 avec Isaline.",
+                "🔹 <strong>INDICE 3</strong> (si on demande ce que Dubois t'a dit) : Il m'a confié qu'il allait refuser l'augmentation d'Isaline car 'elle ne le méritait pas'. Il avait l'air décidé. Il m'a aussi dit que Léo lui devait de l'argent et qu'il allait 'le faire payer' ce soir.",
+                "🔹 <strong>INDICE 4 - CRUCIAL</strong> (si on demande pourquoi Isaline oublie tout) : Ces dernières semaines, Isaline venait souvent me voir car elle oubliait plein de choses - clés, rendez-vous. En tant qu'infirmière, je sais qu'un choc émotionnel peut causer des pertes de mémoire, comme un mécanisme de protection du cerveau."
+            ],
+            secretSummary: "Sait TOUT (chantage Léo, dispute Adrien, problèmes Quentin) + mouchoir orange retrouvé",
+            secret: "Tu es l'ex de Léo (restés amis). Dubois te racontait TOUT - tu savais pour le chantage de Léo, les problèmes avec Quentin, la dispute avec Adrien. Tu SAIS LE PLUS de choses. PIRE : ton mouchoir orange 'G.M.' a été retrouvé dans le bureau !"
         }
     };
 
@@ -319,14 +366,12 @@
         leo: charactersWithQuentin.leo,
         chloe: {
             ...charactersWithQuentin.chloe,
-            backstorySummary: "Secrétaire depuis 2 ans, meilleure amie d'Isaline (25 ans)",
-            backstory: "Tu es secrétaire au centre depuis 2 ans. Isaline est ta meilleure amie depuis la maternelle, vous avez 25 ans de complicité. Dubois t'a embauchée quand personne ne voulait de toi, mais ces derniers mois il est devenu méchant. Tu es sensible et loyale. Tu cacherais la vérité pour protéger tes proches.",
-            alibiSummary: "Accueil 17h-19h30, absente 5 min toilettes à 18h20",
-            alibi: "J'étais à l'accueil entre 17h et 19h30. Vers 18h15, ma meilleure amie Isaline est passée pour aller au bureau du directeur. Elle m'a fait un clin d'œil en disant 'Souhaite-moi bonne chance, je vais enfin lui dire ce que je pense'. MAIS... j'ai quitté mon poste 5 minutes vers 18h20 pour aller aux toilettes. Personne ne m'a vue.",
-            indiceSummary: "Isaline confuse à 18h30, chemisier déchiré + Adrien mains tremblantes",
-            indice: "Vers 18h30, j'ai croisé Isaline dans le couloir. Elle tremblait de partout, son chemisier rouge était déchiré avec un bouton qui manquait, et elle m'a dit d'une voix complètement perdue : 'Je... je ne comprends pas ce qui s'est passé, Chloé... tout est flou... pourquoi je suis là ?'. Elle avait l'air totalement perdue. MAIS j'ai AUSSI vu Adrien qui sortait des toilettes à ce moment-là, et il avait les mains qui tremblaient.",
-            secretSummary: "Isaline lui a dit avoir 'un plan' + prête à mentir pour la protéger",
-            secret: "Tu es la meilleure amie d'Isaline depuis 25 ans - c'est comme une sœur pour toi. Tu protégerais Isaline coûte que coûte. MAIS SURTOUT : ce matin, Isaline t'a confié qu'elle avait 'un plan' pour 'faire payer Dubois' et elle t'a demandé de ne rien dire à personne. Tu as promis. Tu pourrais MENTIR pour la protéger."
+            relationsSummary: "Meilleure amie d'Isaline (25 ans !)",
+            relations: "🔴 <strong>Isaline</strong> : Ta meilleure amie depuis la maternelle. 25 ans d'amitié ! Comme une sœur.<br>🩷 <strong>Adrien</strong> : Le cousin d'Isaline, tu le connais bien.",
+            backstorySummary: "Secrétaire 2 ans, meilleure amie d'Isaline (depuis la maternelle), loyale mais prête à mentir pour protéger",
+            backstory: "Tu es secrétaire depuis 2 ans. Isaline est ta meilleure amie depuis la maternelle (25 ans !). Dubois t'a embauchée quand personne ne voulait de toi. Tu es sensible et loyale, mais tu cacherais la vérité pour protéger tes proches.",
+            secretSummary: "Isaline lui a dit avoir 'un plan' pour 'faire payer Dubois' + prête à MENTIR",
+            secret: "Tu es la meilleure amie d'Isaline depuis 25 ans. MAIS SURTOUT : ce matin, Isaline t'a confié avoir 'un plan' pour 'faire payer Dubois'. Tu as promis de ne rien dire. Tu pourrais MENTIR pour la protéger."
         },
         isaline: charactersWithQuentin.isaline,
         gladys: charactersWithQuentin.gladys
@@ -357,33 +402,26 @@
         document.getElementById('suspectCount').textContent = count;
         
         let fp = '<h2>🎭 Les fausses pistes</h2>';
-        fp += '<p><strong>Adrien :</strong> Grosse dispute avec Dubois hier + absent 10 min à l\'heure du crime + bouton rose retrouvé dans le bureau</p>';
+        fp += '<p><strong>Adrien :</strong> Grosse dispute hier + absent 10 min + bouton rose retrouvé</p>';
         if (currentMode === 'with') {
-            fp += '<p><strong>Quentin :</strong> A dit "Dubois le paiera" + rentré dans le bâtiment vers 18h25 + son gant blanc retrouvé dans le bureau</p>';
+            fp += '<p><strong>Quentin :</strong> "Dubois le paiera" + rentré dans bâtiment + gant blanc retrouvé</p>';
         }
-        fp += '<p><strong>Léo :</strong> Chantage de Dubois + devait payer 200€ ce soir + a pensé "régler ses comptes"</p>';
-        fp += '<p><strong>Chloé :</strong> Prête à mentir pour protéger ses proches + absente de son poste 5 min + Isaline lui a dit avoir "un plan"</p>';
-        fp += '<p><strong>Gladys :</strong> Très proche de Dubois + son mouchoir orange retrouvé dans le bureau + a entendu les cris et s\'est approchée + sait TOUT sur tout le monde</p>';
+        fp += '<p><strong>Léo :</strong> Chantage 200€ ce soir + mobile énorme</p>';
+        fp += '<p><strong>Chloé :</strong> Prête à mentir + Isaline lui a dit avoir "un plan"</p>';
+        fp += '<p><strong>Gladys :</strong> Très proche Dubois + mouchoir orange retrouvé + sait TOUT</p>';
         document.getElementById('masterFalsePistes').innerHTML = fp;
         
-        let rel = '<h2>👥 Relations entre les personnages</h2>';
-        rel += '<p><strong>Adrien & Léo :</strong> Meilleurs amis depuis 10 ans</p>';
+        let rel = '<h2>👥 Relations entre personnages</h2>';
+        rel += '<p><strong>Adrien & Léo :</strong> Meilleurs amis 10 ans</p>';
         if (currentMode === 'with') {
-            rel += '<p><strong>Quentin & Chloé :</strong> En couple secret depuis 6 mois (interdit !)</p>';
-            rel += '<p><strong>Léo & Quentin :</strong> Se détestent (trahison il y a 2 ans)</p>';
+            rel += '<p><strong>Quentin & Chloé :</strong> Couple secret 6 mois (interdit !)</p>';
+            rel += '<p><strong>Léo & Quentin :</strong> Ennemis (trahison 2 ans)</p>';
         }
-        rel += '<p><strong>Isaline & Adrien :</strong> Cousins, très proches</p>';
-        rel += '<p><strong>Chloé & Isaline :</strong> Meilleures amies depuis 25 ans</p>';
-        rel += '<p><strong>Gladys & Léo :</strong> Ex-couple (rupture il y a 6 mois)</p>';
-        rel += '<p><strong>Gladys & Dubois :</strong> Très proches, il lui confiait tout</p>';
+        rel += '<p><strong>Isaline & Adrien :</strong> Cousins proches</p>';
+        rel += '<p><strong>Chloé & Isaline :</strong> Meilleures amies 25 ans</p>';
+        rel += '<p><strong>Gladys & Léo :</strong> Ex-couple (6 mois)</p>';
+        rel += '<p><strong>Gladys & Dubois :</strong> Très proches</p>';
         document.getElementById('masterRelations').innerHTML = rel;
-        
-        let indices = '• Bouton rose (Adrien) - Fausse piste<br>';
-        if (currentMode === 'with') {
-            indices += '• Gant blanc (Quentin) - Fausse piste<br>';
-        }
-        indices += '• Mouchoir orange G.M. (Gladys) - Fausse piste';
-        document.getElementById('masterIndices').innerHTML = indices;
     }
 
     function askPassword() {
@@ -401,25 +439,32 @@
         const char = chars[role];
         document.getElementById('animatorName').textContent = `${char.emoji} ${char.name}`;
         document.getElementById('animatorRole').textContent = char.role;
+        
+        document.getElementById('relationsSummary').textContent = char.relationsSummary;
+        document.getElementById('relationsText').innerHTML = char.relations;
+        
         document.getElementById('backstorySummary').textContent = char.backstorySummary;
         document.getElementById('backstoryText').textContent = char.backstory;
+        
         document.getElementById('alibiSummary').textContent = char.alibiSummary;
         document.getElementById('alibiText').textContent = char.alibi;
-        document.getElementById('indiceSummary').textContent = char.indiceSummary;
-        document.getElementById('indiceText').textContent = char.indice;
+        
+        let indicesHTML = '';
+        char.indices.forEach(indice => {
+            indicesHTML += `<div class="indice-item">${indice}</div>`;
+        });
+        document.getElementById('indicesText').innerHTML = indicesHTML;
+        
         document.getElementById('secretSummary').textContent = char.secretSummary;
         document.getElementById('secretText').textContent = char.secret;
+        
         showScreen('animatorScreen');
     }
 
     function loadTeam(color) {
         const teamNames = {
-            red: '🔴 Équipe Rouge',
-            blue: '🔵 Équipe Bleue',
-            orange: '🟠 Équipe Orange',
-            yellow: '🟡 Équipe Jaune',
-            pink: '🩷 Équipe Rose Foncé',
-            white: '⚪ Équipe Sans Bandana'
+            red: '🔴 Équipe Rouge', blue: '🔵 Équipe Bleue', orange: '🟠 Équipe Orange',
+            yellow: '🟡 Équipe Jaune', pink: '🩷 Équipe Rose Foncé', white: '⚪ Équipe Sans Bandana'
         };
         
         const chars = getCharacters();
