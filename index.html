@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cluedo - Veillée ALSH</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #0a0a0f;
@@ -18,12 +13,7 @@
             min-height: 100vh;
             padding: 20px;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
+        .container { max-width: 800px; margin: 0 auto; }
         h1 {
             text-align: center;
             font-size: 2.5rem;
@@ -32,7 +22,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .subtitle {
             text-align: center;
             color: #9ca3af;
@@ -41,58 +30,16 @@
             text-transform: uppercase;
             letter-spacing: 2px;
         }
-
-        .screen {
-            display: none;
-        }
-
-        .screen.active {
-            display: block;
-        }
-
-        /* MODE SELECTION */
-        .mode-grid {
+        .screen { display: none; }
+        .screen.active { display: block; }
+        .mode-grid, .role-grid, .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-top: 30px;
         }
-
-        .mode-card {
-            background: #13131a;
-            border: 2px solid #27272a;
-            border-radius: 16px;
-            padding: 40px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .mode-card:hover {
-            border-color: #8b5cf6;
-            transform: translateY(-5px);
-            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
-        }
-
-        .mode-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .mode-card p {
-            color: #9ca3af;
-            line-height: 1.6;
-        }
-
-        /* ROLE GRID */
-        .role-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .role-card {
+        .mode-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .role-grid, .team-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        .mode-card, .role-card, .team-card {
             background: #13131a;
             border: 2px solid #27272a;
             border-radius: 16px;
@@ -101,70 +48,15 @@
             transition: all 0.3s;
             text-align: center;
         }
-
-        .role-card:hover {
+        .mode-card:hover, .role-card:hover, .team-card:hover {
             border-color: #8b5cf6;
             transform: translateY(-5px);
             box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
         }
-
-        .role-card h3 {
-            font-size: 1.6rem;
-            margin-bottom: 8px;
-        }
-
-        .role-card p {
-            color: #6b7280;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
         .role-card.master {
             background: linear-gradient(135deg, #8b5cf6, #6366f1);
         }
-
-        .role-card.master h3,
-        .role-card.master p {
-            color: white;
-        }
-
-        /* TEAM GRID */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .team-card {
-            background: #13131a;
-            border: 2px solid #27272a;
-            border-radius: 12px;
-            padding: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .team-card:hover {
-            border-color: #8b5cf6;
-            transform: translateY(-5px);
-        }
-
-        .team-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-        }
-
-        .team-card.red { border-color: #ef4444; }
-        .team-card.blue { border-color: #3b82f6; }
-        .team-card.orange { border-color: #f97316; }
-        .team-card.yellow { border-color: #eab308; }
-        .team-card.pink { border-color: #ec4899; }
-        .team-card.white { border-color: #d1d5db; }
-
-        /* INFO CARDS */
+        .role-card.master h3, .role-card.master p { color: white; }
         .info-card {
             background: #13131a;
             border: 1px solid #27272a;
@@ -172,43 +64,26 @@
             padding: 25px;
             margin-bottom: 20px;
         }
-
         .info-card h2 {
             font-size: 1.4rem;
             margin-bottom: 15px;
             color: #8b5cf6;
         }
-
-        .info-card p {
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-
         .summary {
             font-size: 0.9rem;
             color: #9ca3af;
             margin-bottom: 10px;
         }
-
         .summary span {
             color: #f59e0b;
             font-weight: 600;
         }
-
         .solution-card {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
             border: 2px solid #ef4444;
         }
-
-        .solution-card h2 {
-            color: #ef4444;
-        }
-
-        .solution-card strong {
-            color: #f59e0b;
-        }
-
-        /* BUTTON */
+        .solution-card h2 { color: #ef4444; }
+        .solution-card strong { color: #f59e0b; }
         .btn-back {
             background: #1a1a24;
             border: 1px solid #27272a;
@@ -222,341 +97,243 @@
             display: inline-block;
             transition: all 0.2s;
         }
-
         .btn-back:hover {
             background: #27272a;
             transform: translateY(-2px);
         }
-
-        /* HEADER */
         .header-perso {
             text-align: center;
             padding: 20px 0 40px 0;
             border-bottom: 2px solid #27272a;
             margin-bottom: 30px;
         }
-
-        .header-perso h2 {
-            font-size: 2rem;
-            margin-bottom: 5px;
-        }
-
-        .header-perso p {
-            color: #9ca3af;
-            font-size: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .role-grid, .team-grid, .mode-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        .team-card.red { border-color: #ef4444; }
+        .team-card.blue { border-color: #3b82f6; }
+        .team-card.orange { border-color: #f97316; }
+        .team-card.yellow { border-color: #eab308; }
+        .team-card.pink { border-color: #ec4899; }
+        .team-card.white { border-color: #d1d5db; }
     </style>
 </head>
 <body>
-    <!-- ÉCRAN SÉLECTION MODE -->
     <div id="modeScreen" class="screen active">
         <div class="container">
             <h1>🔍 CLUEDO</h1>
             <p class="subtitle">Configuration de la veillée</p>
-
             <div class="mode-grid">
                 <div class="mode-card" onclick="selectMode('with')">
                     <h3>✅ Avec Quentin</h3>
-                    <p>6 suspects<br>6 animateurs disponibles</p>
+                    <p>6 suspects</p>
                 </div>
-
                 <div class="mode-card" onclick="selectMode('without')">
                     <h3>⚠️ Sans Quentin</h3>
-                    <p>5 suspects<br>Quentin absent ce soir</p>
+                    <p>5 suspects</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ÉCRAN SÉLECTION TYPE -->
     <div id="typeScreen" class="screen">
         <div class="container">
             <h1>🔍 CLUEDO</h1>
             <p class="subtitle">Qui êtes-vous ?</p>
-
             <div class="role-grid">
                 <div class="role-card master" onclick="askPassword()">
                     <h3>👨‍💼 Meneur</h3>
-                    <p>Adrien - Solution secrète</p>
+                    <p>Solution secrète</p>
                 </div>
-
                 <div class="role-card" onclick="showScreen('animatorSelectScreen')">
                     <h3>🎭 Animateur</h3>
                     <p>Jouer un suspect</p>
                 </div>
-
                 <div class="role-card" onclick="showScreen('teamSelectScreen')">
                     <h3>👦 Équipe Enfants</h3>
                     <p>Détectives</p>
                 </div>
             </div>
-
             <button class="btn-back" onclick="showScreen('modeScreen')">← Retour</button>
         </div>
     </div>
 
-    <!-- ÉCRAN SÉLECTION ANIMATEUR -->
     <div id="animatorSelectScreen" class="screen">
         <div class="container">
-            <h1>🎭 Quel suspect jouez-vous ?</h1>
-            <p class="subtitle">Sélectionnez votre personnage</p>
-
-            <div id="animatorRoleGrid" class="role-grid">
-                <!-- Généré dynamiquement -->
-            </div>
-
+            <h1>🎭 Votre personnage</h1>
+            <div id="animatorRoleGrid" class="role-grid"></div>
             <button class="btn-back" onclick="showScreen('typeScreen')">← Retour</button>
         </div>
     </div>
 
-    <!-- ÉCRAN SÉLECTION ÉQUIPE -->
     <div id="teamSelectScreen" class="screen">
         <div class="container">
-            <h1>👦 Quelle est votre équipe ?</h1>
-            <p class="subtitle">Choisissez votre couleur de bandana</p>
-
+            <h1>👦 Votre équipe</h1>
             <div class="team-grid">
-                <div class="team-card red" onclick="loadTeam('red')">
-                    <h3>🔴 Rouge</h3>
-                </div>
-                <div class="team-card blue" onclick="loadTeam('blue')">
-                    <h3>🔵 Bleu</h3>
-                </div>
-                <div class="team-card orange" onclick="loadTeam('orange')">
-                    <h3>🟠 Orange</h3>
-                </div>
-                <div class="team-card yellow" onclick="loadTeam('yellow')">
-                    <h3>🟡 Jaune</h3>
-                </div>
-                <div class="team-card pink" onclick="loadTeam('pink')">
-                    <h3>🩷 Rose Foncé</h3>
-                </div>
-                <div class="team-card white" onclick="loadTeam('white')">
-                    <h3>⚪ Sans Bandana</h3>
-                </div>
+                <div class="team-card red" onclick="loadTeam('red')"><h3>🔴 Rouge</h3></div>
+                <div class="team-card blue" onclick="loadTeam('blue')"><h3>🔵 Bleu</h3></div>
+                <div class="team-card orange" onclick="loadTeam('orange')"><h3>🟠 Orange</h3></div>
+                <div class="team-card yellow" onclick="loadTeam('yellow')"><h3>🟡 Jaune</h3></div>
+                <div class="team-card pink" onclick="loadTeam('pink')"><h3>🩷 Rose</h3></div>
+                <div class="team-card white" onclick="loadTeam('white')"><h3>⚪ Blanc</h3></div>
             </div>
-
             <button class="btn-back" onclick="showScreen('typeScreen')">← Retour</button>
         </div>
     </div>
 
-    <!-- ÉCRAN MENEUR -->
     <div id="masterScreen" class="screen">
         <div class="container">
             <div class="header-perso">
                 <h2>🎯 Inspecteur</h2>
-                <p>Adrien - Mène l'enquête</p>
             </div>
-
             <div class="info-card">
                 <h2>📋 L'incident</h2>
-                <p>Monsieur Dubois, le directeur de l'ALSH, a été retrouvé blessé dans son bureau ce soir à 19h30. Il a été transporté à l'hôpital. Les enfants-détectives doivent interroger les <span id="suspectCount"></span> employés présents au moment de l'agression.</p>
-                <p style="margin-top: 15px;"><strong>Heure de l'incident :</strong> Entre 18h15 et 18h30</p>
+                <p>Dubois blessé, transporté à l'hôpital. <span id="suspectCount"></span> suspects.</p>
+                <p><strong>Heure :</strong> 18h15-18h30</p>
             </div>
-
             <div class="info-card solution-card">
                 <h2>🔐 SOLUTION</h2>
-                <p><strong>COUPABLE :</strong> Madame Rouge (Isaline)</p>
-                <p><strong>LIEU :</strong> Le bureau du directeur</p>
-                <p><strong>COMMENT :</strong> L'a poussé, il est tombé et s'est cogné la tête</p>
+                <p><strong>COUPABLE :</strong> Isaline (Rouge)</p>
+                <p><strong>COMMENT :</strong> Poussé, tombé, cogné la tête</p>
+                <p><strong>TWIST :</strong> Elle ne s'en souvient PAS !</p>
             </div>
-
-            <div class="info-card">
-                <h2>💡 Ce qui s'est passé</h2>
-                <p>À 18h20, Isaline est allée voir Monsieur Dubois pour lui demander une augmentation. Il a refusé méchamment et s'est moqué d'elle. Dans un moment de colère, elle l'a poussé violemment. Il est tombé, s'est cogné la tête contre le bureau et s'est évanoui.</p>
-                <p style="margin-top: 15px;"><strong>⚠️ LE TWIST :</strong> Isaline est en état de choc ! Son cerveau a bloqué ce souvenir traumatisant. Elle ne se SOUVIENT PAS de l'avoir poussé. Elle croit sincèrement être innocente !</p>
-            </div>
-
-            <div id="masterFalsePistes" class="info-card">
-                <!-- Généré dynamiquement -->
-            </div>
-
-            <div id="masterRelations" class="info-card">
-                <!-- Généré dynamiquement -->
-            </div>
-
-            <div class="info-card">
-                <h2>🔍 Indices à cacher (optionnel)</h2>
-                <p><strong>Dans le bureau du directeur :</strong></p>
-                <p>• Bouton rouge (Isaline) - VRAI indice</p>
-                <p id="masterIndices"></p>
-                <p>• Traces de pas</p>
-            </div>
-
+            <div id="masterFalsePistes" class="info-card"></div>
+            <div id="masterRelations" class="info-card"></div>
             <button class="btn-back" onclick="showScreen('typeScreen')">← Retour</button>
         </div>
     </div>
 
-    <!-- ÉCRAN ANIMATEUR -->
     <div id="animatorScreen" class="screen">
         <div class="container">
             <div class="header-perso">
                 <h2 id="animatorName"></h2>
                 <p id="animatorRole"></p>
             </div>
-
             <div class="info-card">
                 <h2>📖 Ton histoire</h2>
-                <p class="summary">📌 En bref : <span id="backstorySummary"></span></p>
+                <p class="summary">📌 <span id="backstorySummary"></span></p>
                 <p id="backstoryText"></p>
             </div>
-
             <div class="info-card">
                 <h2>📜 Ton alibi</h2>
-                <p class="summary">📌 En bref : <span id="alibiSummary"></span></p>
+                <p class="summary">📌 <span id="alibiSummary"></span></p>
                 <p id="alibiText"></p>
             </div>
-
             <div class="info-card">
                 <h2>💡 Indice à donner</h2>
-                <p class="summary">📌 En bref : <span id="indiceSummary"></span></p>
+                <p class="summary">📌 <span id="indiceSummary"></span></p>
                 <p id="indiceText"></p>
             </div>
-
             <div class="info-card">
                 <h2>🔒 Ton secret</h2>
-                <p class="summary">📌 En bref : <span id="secretSummary"></span></p>
+                <p class="summary">📌 <span id="secretSummary"></span></p>
                 <p id="secretText"></p>
             </div>
-
             <button class="btn-back" onclick="showScreen('animatorSelectScreen')">← Retour</button>
         </div>
     </div>
 
-    <!-- ÉCRAN ÉQUIPE -->
     <div id="teamScreen" class="screen">
         <div class="container">
             <div class="header-perso">
                 <h2 id="teamName"></h2>
-                <p>Équipe de détectives</p>
             </div>
-
             <div class="info-card">
-                <h2>📋 Votre Mission</h2>
-                <p>Monsieur Dubois a été attaqué ! Interrogez les <span id="teamSuspectCount"></span> suspects et trouvez le coupable.</p>
-                <p style="margin-top: 10px;"><strong>Heure de l'agression :</strong> Entre 18h15 et 18h30</p>
+                <h2>📋 Mission</h2>
+                <p>Interrogez les <span id="teamSuspectCount"></span> suspects.</p>
             </div>
-
             <div class="info-card">
-                <h2>👥 Les Suspects</h2>
+                <h2>👥 Suspects</h2>
                 <div id="teamSuspectList"></div>
             </div>
-
             <div class="info-card">
-                <h2>❓ Questions à Poser</h2>
+                <h2>❓ Questions</h2>
                 <p>• Où étiez-vous à 18h20 ?</p>
-                <p>• Qu'avez-vous vu ou entendu ?</p>
-                <p>• Qui pourrait avoir fait ça ?</p>
+                <p>• Qu'avez-vous vu ?</p>
+                <p>• Qui est suspect ?</p>
             </div>
-
-            <div class="info-card" style="background: #dbeafe; border-color: #1e40af;">
-                <h2 style="color: #1e40af;">💡 Conseil</h2>
-                <p style="color: #000;">Notez tout ce que disent les suspects ! Comparez leurs témoignages. Qui se contredit ? Qui ment ?</p>
-            </div>
-
             <button class="btn-back" onclick="showScreen('teamSelectScreen')">← Retour</button>
         </div>
     </div>
 
     <script>
-        let currentMode = 'with'; // 'with' ou 'without'
-
-        const charactersWithQuentin = {
-            adrien: {
-                name: 'Adrien', role: 'Monsieur Violet - Le Cuisinier', emoji: '🟣',
-                backstorySummary: "Cuisinier depuis 3 ans, cousin d'Isaline, meilleur ami de Léo, disputé avec Dubois hier",
-                backstory: "Tu travailles au centre depuis 3 ans. Tu es passionné de cuisine. Ta cousine Isaline t'a aidé à décrocher ce job. Ton meilleur ami Léo est comme un frère. Tu es loyal et protège tes proches. Monsieur Dubois refusait toujours d'acheter de bons ingrédients. Hier, vous vous êtes VIOLEMMENT disputés dans son bureau.",
-                alibiSummary: "À la cuisine 17h-19h, entendu la dispute à 18h20, sorti fumer 18h10-18h20",
-                alibi: "J'étais à la cuisine entre 17h et 19h. Vers 18h20, j'ai entendu des éclats de voix du bureau. Mon ami Léo est venu me voir juste après, il avait l'air inquiet. Mais entre 18h10 et 18h20, je suis sorti fumer dehors. Personne ne m'a vu.",
-                indiceSummary: "J'ai reconnu la voix d'Isaline qui criait + vu Quentin rentrer paniqué à 18h25",
-                indice: "J'ai reconnu la voix de ma cousine Isaline. Elle criait 'Vous êtes injuste !' Ça ne lui ressemble pas. Puis j'ai entendu un grand bruit. MAIS j'ai aussi vu Quentin qui rentrait précipitamment à 18h25. Il avait l'air paniqué.",
-                secretSummary: "Dispute violente avec Dubois hier + bouton violet perdu",
-                secret: "Tu es le cousin d'Isaline. Tu la protégerais coûte que coûte. MAIS HIER, tu as eu une ÉNORME dispute avec Dubois - tu as crié 'Un jour vous le paierez !' Plusieurs personnes l'ont entendu. Tu as aussi perdu un bouton violet ce jour-là."
+        let currentMode = 'with';
+        
+        const chars = {
+            with: {
+                adrien: { name: 'Adrien', role: 'M. Rose - Cuisinier', emoji: '🩷',
+                    backstorySummary: "Cuisinier 3 ans, cousin Isaline, ami Léo, disputé Dubois",
+                    backstory: "Cuisinier depuis 3 ans. Isaline t'a aidé. Léo est ton meilleur ami. Loyal. Dispute violente avec Dubois hier.",
+                    alibiSummary: "Cuisine 17h-19h, sorti fumer 18h10-18h20",
+                    alibi: "Cuisine 17h-19h. Entendu dispute 18h20. Sorti fumer 18h10-18h20, personne ne m'a vu.",
+                    indiceSummary: "Voix Isaline + Quentin rentré paniqué 18h25",
+                    indice: "J'ai reconnu Isaline qui criait. Puis vu Quentin rentrer paniqué à 18h25.",
+                    secretSummary: "Dispute hier + bouton rose perdu",
+                    secret: "Cousin d'Isaline. DISPUTE hier avec Dubois : 'Un jour vous le paierez !'. Bouton rose perdu." },
+                quentin: { name: 'Quentin', role: 'M. Blanc - Jardinier', emoji: '⚪',
+                    backstorySummary: "Jardinier 5 ans, couple Chloé, déteste Léo",
+                    backstory: "Jardinier 5 ans. Léo t'a trahi il y a 2 ans. Amoureux de Chloé (secret). Dubois t'a humilié.",
+                    alibiSummary: "Dehors 17h30-18h45, rentré toilettes 18h15-18h30",
+                    alibi: "Haies dehors. SMS Chloé 18h25. MAIS pause toilettes 18h15-18h30, pas vu.",
+                    indiceSummary: "Isaline voulait 'dire ses 4 vérités' + Léo traînait",
+                    indice: "Isaline a dit qu'elle allait 'dire ses 4 vérités'. Léo traînait près du bureau 18h15.",
+                    secretSummary: "A dit 'Dubois le paiera' + gant blanc retrouvé",
+                    secret: "Tu détestes Dubois. Hier : 'Un jour il le paiera'. Couple secret Chloé. Ton gant blanc retrouvé !" },
+                leo: { name: 'Léo', role: 'M. Bleu - Entretien', emoji: '🔵',
+                    backstorySummary: "Entretien 4 ans, ami Adrien, chantage 200€",
+                    backstory: "Entretien 4 ans. Adrien meilleur ami 10 ans. Trahi Quentin il y a 2 ans. Volé 50€, Dubois chantage : 200€ ce soir sinon police.",
+                    alibiSummary: "Couloirs 18h-19h, vu Isaline sortir 18h25",
+                    alibi: "Couloirs 18h-19h. Vu Isaline sortir paniquée 18h25. Passé devant bureau 18h10.",
+                    indiceSummary: "Dubois par terre + boutons rouge, rose + gant blanc",
+                    indice: "18h40 : Dubois par terre. Bouton rouge (Isaline), rose (Adrien), gant blanc (Quentin).",
+                    secretSummary: "Chantage : 200€ ce soir sinon police",
+                    secret: "Ami Adrien 10 ans. CHANTAGE : 200€ ce soir sinon police. DÉSESPÉRÉ. Mobile énorme." },
+                chloe: { name: 'Chloé', role: 'Mlle Jaune - Secrétaire', emoji: '🟡',
+                    backstorySummary: "Secrétaire 2 ans, amie Isaline 25 ans, couple Quentin",
+                    backstory: "Secrétaire 2 ans. Isaline amie depuis maternelle (25 ans). Amoureuse Quentin (secret). Protégerait ses proches.",
+                    alibiSummary: "Accueil 17h-19h30, absente 5 min toilettes 18h20",
+                    alibi: "Accueil 17h-19h30. Isaline passée 18h15. Absente toilettes 18h20.",
+                    indiceSummary: "Isaline confuse chemisier déchiré + Adrien mains tremblantes",
+                    indice: "18h30 : Isaline tremblait, chemisier déchiré. 'Tout est flou'. Adrien mains tremblantes.",
+                    secretSummary: "Isaline a dit avoir 'un plan' + prête à mentir",
+                    secret: "Amie Isaline 25 ans. Couple Quentin. Ce matin, Isaline : 'un plan pour faire payer Dubois'. Tu pourrais MENTIR." },
+                isaline: { name: 'Isaline', role: 'Mme Rouge - Animatrice', emoji: '🔴',
+                    backstorySummary: "Animatrice 4 ans, cousine Adrien, amie Chloé, oublie",
+                    backstory: "Animatrice 4 ans. Aidé Adrien il y a 3 ans. Chloé amie maternelle. Gentille. Dubois pression énorme. Demande augmentation.",
+                    alibiSummary: "RDV 18h15, trou noir, retrouvée toilettes 18h30",
+                    alibi: "RDV Dubois 18h15 augmentation. Puis... trou noir. Retrouvée toilettes 18h30, confuse, chemisier déchiré.",
+                    indiceSummary: "Quentin a dit 'Dubois le paiera' + Léo nerveux",
+                    indice: "Quentin hier : 'Un jour il le paiera'. Léo très nerveux ce matin.",
+                    secretSummary: "Oublie souvent + GROS trou mémoire 18h15-18h30",
+                    secret: "Oublies souvent. GROS trou mémoire 18h15-18h30. Tu ne te souviens de RIEN. ⚠️ JOUE confusion totale." },
+                gladys: { name: 'Gladys', role: 'Mme Orange - Infirmière', emoji: '🟠',
+                    backstorySummary: "Infirmière 7 ans, ex Léo, proche Dubois, sait tout",
+                    backstory: "Infirmière 7 ans. Ex Léo (amis). Dubois te confiait tout. Proche. Il est venu 17h, aspirine.",
+                    alibiSummary: "Infirmerie 17h-19h, entendu cris 18h20",
+                    alibi: "Infirmerie 17h-19h. Dubois venu 17h. RDV Isaline 18h15. Entendu cris 18h20.",
+                    indiceSummary: "Dubois refusera augmentation + Isaline oublie + explication médicale",
+                    indice: "Dubois 17h : refusera augmentation Isaline. Isaline oublie souvent. Choc émotionnel peut causer pertes mémoire (protection cerveau).",
+                    secretSummary: "Sait TOUT + mouchoir orange retrouvé",
+                    secret: "Ex Léo. Dubois racontait TOUT. Tu sais : chantage Léo, problèmes Quentin, dispute Adrien. Mouchoir orange retrouvé !" }
             },
-            quentin: {
-                name: 'Quentin', role: 'Monsieur Vert - Le Jardinier', emoji: '🟢',
-                backstorySummary: "Jardinier 5 ans, couple secret avec Chloé, déteste Léo, humilié par Dubois",
-                backstory: "Tu es jardinier depuis 5 ans. Tu adores la nature. Il y a 2 ans, Léo t'a trahi. Depuis, vous ne vous parlez plus. Il y a 6 mois, tu es tombé amoureux de Chloé (couple secret, c'est interdit !). La semaine dernière, Dubois t'a humilié devant tout le monde.",
-                alibiSummary: "Dehors 17h30-18h45, mais rentré aux toilettes 18h15-18h30",
-                alibi: "Je taillais les haies dehors entre 17h30 et 18h45. Ma copine Chloé (secret depuis 6 mois) m'a envoyé un SMS d'urgence à 18h25. J'avais mes écouteurs. MAIS entre 18h15 et 18h30, j'ai fait une pause toilettes. Personne ne m'a vu entrer.",
-                indiceSummary: "Isaline voulait 'dire ses 4 vérités' + Léo traînait bizarrement",
-                indice: "Ce matin, Isaline a dit à Chloé qu'elle allait 'dire ses quatre vérités au directeur'. Chloé essayait de la calmer mais Isaline était déterminée. MAIS j'ai aussi vu Léo traîner près du bureau à 18h15. Il regardait partout.",
-                secretSummary: "A dit 'Dubois le paiera' + gant retrouvé dans le bureau",
-                secret: "Tu détestes Dubois. Hier, tu as dit : 'Un jour Dubois le paiera'. Tu es en couple secret avec Chloé - si on vous découvre, virés. Tu ne supportes pas Léo. PIRE : ton gant de jardinage a été retrouvé dans le bureau !"
-            },
-            leo: {
-                name: 'Léo', role: 'Monsieur Bleu - L\'Agent d\'entretien', emoji: '🔵',
-                backstorySummary: "Agent d'entretien 4 ans, meilleur ami d'Adrien, chantage Dubois (200€)",
-                backstory: "Tu travailles depuis 4 ans. Adrien est ton meilleur ami depuis 10 ans. Il y a 2 ans, tu as révélé un secret de Quentin sans faire exprès. Il te déteste. Le mois dernier, tu as pris 50€ dans la caisse pour aider ta mère. Dubois te faisait chanter : 200€ ce soir sinon police.",
-                alibiSummary: "Couloirs 18h-19h, vu Isaline sortir paniquée à 18h25",
-                alibi: "Je nettoyais les couloirs entre 18h et 19h. Vers 18h25, j'ai vu Isaline sortir du bureau en courant. Elle tremblait, paniquée. Je lui ai demandé si ça allait mais elle ne m'a pas regardé. MAIS j'étais passé devant le bureau vers 18h10. J'ai entendu Dubois crier au téléphone.",
-                indiceSummary: "Dubois par terre à 18h40 + boutons rouge, violet et gant vert",
-                indice: "À 18h40, j'ai vu Dubois par terre, inconscient. Désordre, papiers partout. J'ai remarqué un bouton rouge (Isaline), un bouton violet (Adrien), et un gant vert (Quentin).",
-                secretSummary: "Chantage : 200€ à payer ce soir sinon police",
-                secret: "Tu es le meilleur ami d'Adrien depuis 10 ans. Tu regrettes ta trahison de Quentin. SURTOUT : Dubois te faisait CHANTER. Il exigeait 200€ ce soir, sinon police. Tu étais DÉSESPÉRÉ. Mobile énorme."
-            },
-            chloe: {
-                name: 'Chloé', role: 'Mademoiselle Jaune - La Secrétaire', emoji: '🟡',
-                backstorySummary: "Secrétaire 2 ans, meilleure amie Isaline (25 ans), couple secret Quentin",
-                backstory: "Tu es secrétaire depuis 2 ans. Isaline est ta meilleure amie depuis la maternelle (25 ans !). Il y a 6 mois, tu es tombée amoureuse de Quentin (couple secret, c'est interdit). Dubois t'a embauchée quand personne ne voulait de toi, mais il est devenu méchant. Tu cacherais la vérité pour protéger tes proches.",
-                alibiSummary: "Accueil 17h-19h30, absente 5 min toilettes à 18h20",
-                alibi: "J'étais à l'accueil entre 17h et 19h30. Mon petit ami Quentin (secret) travaillait dehors. Vers 18h15, Isaline est passée pour aller au bureau. Elle m'a fait un clin d'œil : 'Souhaite-moi bonne chance'. MAIS j'ai quitté mon poste 5 min vers 18h20 pour les toilettes.",
-                indiceSummary: "Isaline confuse à 18h30, chemisier déchiré + Adrien mains tremblantes",
-                indice: "Vers 18h30, Isaline tremblait, chemisier déchiré, bouton manquant. Elle m'a dit : 'Je ne comprends pas... tout est flou... pourquoi je suis là ?'. Complètement perdue. J'ai envoyé un SMS à Quentin. MAIS j'ai aussi vu Adrien sortir des toilettes, mains tremblantes.",
-                secretSummary: "Isaline lui a dit avoir 'un plan' + prête à mentir",
-                secret: "Tu es la meilleure amie d'Isaline depuis 25 ans. Couple secret avec Quentin - si découverts, virés. Tu protégerais Isaline ou Quentin coûte que coûte. MAIS ce matin, Isaline t'a confié avoir 'un plan' pour 'faire payer Dubois'. Tu as promis de ne rien dire. Tu pourrais MENTIR."
-            },
-            isaline: {
-                name: 'Isaline', role: 'Madame Rouge - L\'Animatrice', emoji: '🔴',
-                backstorySummary: "Animatrice 4 ans, cousine Adrien, meilleure amie Chloé, oublie des choses",
-                backstory: "Tu es animatrice depuis 4 ans. Tu as aidé ton cousin Adrien il y a 3 ans. Chloé est ta meilleure amie depuis la maternelle. Tu es gentille et calme, mais Dubois te mettait une pression énorme. Tu travailles 2x plus que les autres mais gagnes le moins. Aujourd'hui, tu demandes ton augmentation après 4 ans.",
-                alibiSummary: "RDV Dubois 18h15, puis trou noir, retrouvée toilettes 18h30",
-                alibi: "J'avais RDV avec Dubois à 18h15 pour mon augmentation. Je suis allée à son bureau, on a commencé à discuter et... après... je ne me souviens plus. Trous noirs dans ma mémoire. Je me suis retrouvée aux toilettes vers 18h30. Ma meilleure amie Chloé m'a trouvée, j'étais confuse, chemisier déchiré.",
-                indiceSummary: "Quentin a dit 'Dubois le paiera' + Léo nerveux",
-                indice: "Adrien m'a dit que Quentin détestait le directeur. Hier, Quentin a dit devant moi et Chloé : 'Un jour Dubois le paiera'. Ça m'a fait peur. MAIS j'ai aussi vu Léo très nerveux ce matin. Il m'a demandé où était Dubois.",
-                secretSummary: "Oublie souvent des choses + GROS trou mémoire 18h15-18h30",
-                secret: "Tu es la meilleure amie de Chloé et la cousine d'Adrien. Tu oublies souvent des petites choses - clés, rendez-vous, conversations. Ça t'inquiète. Aujourd'hui, GROS trou de mémoire entre 18h15 et 18h30. Tu ne te souviens de RIEN. C'est flou. ⚠️ JOUE la confusion totale - tu ne comprends pas ce qui t'arrive."
-            },
-            gladys: {
-                name: 'Gladys', role: 'Madame Orange - L\'Infirmière', emoji: '🟠',
-                backstorySummary: "Infirmière 7 ans, ex de Léo, très proche Dubois, sait tout",
-                backstory: "Tu es infirmière depuis 7 ans. Discrète et attentionnée. Il y a 6 mois, tu as rompu avec Léo (restés amis). Dubois venait souvent te confier ses problèmes - vous étiez proches. Il te racontait tout. Aujourd'hui, il est venu à 17h pour mal de tête. Tu lui as donné de l'aspirine.",
-                alibiSummary: "Infirmerie 17h-19h, Dubois venu 17h, entendu cris 18h20",
-                alibi: "J'étais à l'infirmerie entre 17h et 19h. Dubois est venu à 17h pour mal de tête. On a discuté 10 min, il m'a dit avoir un RDV à 18h15 avec Isaline. MAIS vers 18h20, j'ai entendu des cris du bureau et je me suis approchée du couloir. Je n'ai vu personne.",
-                indiceSummary: "Dubois allait refuser l'augmentation + Isaline oublie souvent + explication médicale pertes mémoire",
-                indice: "Dubois m'a dit à 17h qu'il allait refuser l'augmentation d'Isaline car 'elle ne le méritait pas'. Il allait aussi 'faire payer' Léo ce soir. MAIS j'ai remarqué : Isaline venait souvent me voir car elle oubliait plein de choses - clés, rendez-vous. En tant qu'infirmière, je sais qu'un choc émotionnel peut causer des pertes de mémoire, comme protection du cerveau.",
-                secretSummary: "Sait TOUT + mouchoir orange retrouvé dans le bureau",
-                secret: "Tu es l'ex de Léo (restés amis). Dubois te racontait TOUT - tu savais pour le chantage de Léo, les problèmes avec Quentin, la dispute avec Adrien. Tu SAIS LE PLUS de choses. Tu sais qu'Isaline a des trous de mémoire depuis quelques semaines. PIRE : ton mouchoir orange 'G.M.' a été retrouvé dans le bureau !"
+            without: {
+                adrien: null,
+                leo: null,
+                chloe: { name: 'Chloé', role: 'Mlle Jaune - Secrétaire', emoji: '🟡',
+                    backstorySummary: "Secrétaire 2 ans, amie Isaline 25 ans",
+                    backstory: "Secrétaire 2 ans. Isaline amie maternelle (25 ans). Dubois t'a embauchée. Protégerait Isaline.",
+                    alibiSummary: "Accueil 17h-19h30, absente toilettes 18h20",
+                    alibi: "Accueil 17h-19h30. Isaline passée 18h15. Absente toilettes 18h20.",
+                    indiceSummary: "Isaline confuse chemisier déchiré + Adrien mains tremblantes",
+                    indice: "18h30 : Isaline tremblait, chemisier déchiré. Adrien mains tremblantes.",
+                    secretSummary: "Isaline a dit avoir 'un plan' + prête à mentir",
+                    secret: "Amie Isaline 25 ans. Ce matin : 'un plan'. Tu pourrais MENTIR." },
+                isaline: null,
+                gladys: null
             }
         };
-
-        const charactersWithoutQuentin = {
-            adrien: charactersWithQuentin.adrien,
-            leo: charactersWithQuentin.leo,
-            chloe: {
-                ...charactersWithQuentin.chloe,
-                backstorySummary: "Secrétaire 2 ans, meilleure amie Isaline (25 ans)",
-                backstory: "Tu es secrétaire depuis 2 ans. Isaline est ta meilleure amie depuis la maternelle (25 ans !). Dubois t'a embauchée quand personne ne voulait de toi, mais il est devenu méchant. Tu es sensible et loyale. Tu cacherais la vérité pour protéger tes proches.",
-                alibiSummary: "Accueil 17h-19h30, absente 5 min toilettes à 18h20",
-                alibi: "J'étais à l'accueil entre 17h et 19h30. Vers 18h15, ma meilleure amie Isaline est passée pour aller au bureau du directeur. Elle m'a fait un clin d'œil en disant 'Souhaite-moi bonne chance, je vais enfin lui dire ce que je pense'. MAIS j'ai quitté mon poste 5 minutes vers 18h20 pour aller aux toilettes. Personne ne m'a vue.",
-                indiceSummary: "Isaline confuse à 18h30, chemisier déchiré + Adrien mains tremblantes",
-                indice: "Vers 18h30, j'ai croisé Isaline dans le couloir. Elle tremblait de partout, son chemisier rouge était déchiré avec un bouton manquant, et elle m'a dit d'une voix complètement perdue : 'Je... je ne comprends pas ce qui s'est passé, Chloé... tout est flou... pourquoi je suis là ?'. Elle avait l'air totalement perdue. MAIS j'ai AUSSI vu Adrien qui sortait des toilettes à ce moment-là, et il avait les mains qui tremblaient.",
-                secretSummary: "Isaline lui a dit avoir 'un plan' + prête à mentir pour la protéger",
-                secret: "Tu es la meilleure amie d'Isaline depuis 25 ans - c'est comme une sœur pour toi. Tu protégerais Isaline coûte que coûte. MAIS SURTOUT : ce matin, Isaline t'a confié qu'elle avait 'un plan' pour 'faire payer Dubois' et elle t'a demandé de ne rien dire à personne. Tu as promis. Tu pourrais MENTIR pour la protéger."
-            },
-            isaline: charactersWithQuentin.isaline,
-            gladys: charactersWithQuentin.gladys
-        };
+        
+        chars.without.adrien = chars.with.adrien;
+        chars.without.leo = chars.with.leo;
+        chars.without.isaline = chars.with.isaline;
+        chars.without.gladys = chars.with.gladys;
 
         function selectMode(mode) {
             currentMode = mode;
@@ -564,77 +341,44 @@
         }
 
         function getCharacters() {
-            return currentMode === 'with' ? charactersWithQuentin : charactersWithoutQuentin;
+            return chars[currentMode];
         }
 
         function generateAnimatorRoles() {
-            const chars = getCharacters();
+            const characters = getCharacters();
             const grid = document.getElementById('animatorRoleGrid');
             grid.innerHTML = '';
-            
-            for (let key in chars) {
-                const char = chars[key];
-                const card = `
-                    <div class="role-card" onclick="loadAnimator('${key}')">
-                        <h3>${char.emoji} ${char.name}</h3>
-                        <p>${char.role}</p>
-                    </div>
-                `;
-                grid.innerHTML += card;
+            for (let key in characters) {
+                const char = characters[key];
+                grid.innerHTML += `<div class="role-card" onclick="loadAnimator('${key}')"><h3>${char.emoji} ${char.name}</h3><p>${char.role}</p></div>`;
             }
         }
 
         function generateMasterInfo() {
-            const chars = getCharacters();
-            const count = Object.keys(chars).length;
+            const characters = getCharacters();
+            const count = Object.keys(characters).length;
             document.getElementById('suspectCount').textContent = count;
             
-            // Fausses pistes
-            let falsePistes = '<h2>🎭 Les fausses pistes</h2>';
-            falsePistes += '<p><strong>Adrien :</strong> Grosse dispute hier + absent 10 min + bouton violet retrouvé</p>';
-            if (currentMode === 'with') {
-                falsePistes += '<p><strong>Quentin :</strong> A dit "Dubois le paiera" + rentré dans bâtiment + gant retrouvé</p>';
-            }
-            falsePistes += '<p><strong>Léo :</strong> Chantage 200€ ce soir + mobile énorme</p>';
-            falsePistes += '<p><strong>Chloé :</strong> Prête à mentir + Isaline lui a dit avoir "un plan"</p>';
-            falsePistes += '<p><strong>Gladys :</strong> Très proche Dubois + mouchoir retrouvé + sait tout</p>';
-            document.getElementById('masterFalsePistes').innerHTML = falsePistes;
+            let fp = '<h2>🎭 Fausses pistes</h2><p><strong>Adrien:</strong> Dispute + bouton rose</p>';
+            if (currentMode === 'with') fp += '<p><strong>Quentin:</strong> "Dubois paiera" + gant blanc</p>';
+            fp += '<p><strong>Léo:</strong> Chantage 200€</p><p><strong>Chloé:</strong> Plan secret</p><p><strong>Gladys:</strong> Mouchoir orange</p>';
+            document.getElementById('masterFalsePistes').innerHTML = fp;
             
-            // Relations
-            let relations = '<h2>👥 Relations entre personnages</h2>';
-            relations += '<p><strong>Adrien & Léo :</strong> Meilleurs amis 10 ans</p>';
-            if (currentMode === 'with') {
-                relations += '<p><strong>Quentin & Chloé :</strong> Couple secret 6 mois (interdit !)</p>';
-                relations += '<p><strong>Léo & Quentin :</strong> Se détestent (trahison 2 ans)</p>';
-            }
-            relations += '<p><strong>Isaline & Adrien :</strong> Cousins proches</p>';
-            relations += '<p><strong>Chloé & Isaline :</strong> Meilleures amies 25 ans</p>';
-            relations += '<p><strong>Gladys & Léo :</strong> Ex-couple (rupture 6 mois)</p>';
-            relations += '<p><strong>Gladys & Dubois :</strong> Très proches</p>';
-            document.getElementById('masterRelations').innerHTML = relations;
-            
-            // Indices
-            let indices = '• Bouton violet (Adrien) - Fausse piste<br>';
-            if (currentMode === 'with') {
-                indices += '• Gant vert (Quentin) - Fausse piste<br>';
-            }
-            indices += '• Mouchoir orange G.M. (Gladys) - Fausse piste';
-            document.getElementById('masterIndices').innerHTML = indices;
+            let rel = '<h2>👥 Relations</h2><p>Adrien & Léo: amis 10 ans</p>';
+            if (currentMode === 'with') rel += '<p>Quentin & Chloé: couple secret</p><p>Léo & Quentin: ennemis</p>';
+            rel += '<p>Isaline & Adrien: cousins</p><p>Chloé & Isaline: amies 25 ans</p><p>Gladys & Léo: ex</p>';
+            document.getElementById('masterRelations').innerHTML = rel;
         }
 
         function askPassword() {
-            const password = prompt("🔐 Mot de passe du maître du jeu :");
-            if (password === "INSPECTEUR") {
+            if (prompt("🔐 Mot de passe :") === "INSPECTEUR") {
                 generateMasterInfo();
                 showScreen('masterScreen');
-            } else {
-                alert("❌ Mot de passe incorrect !");
-            }
+            } else alert("❌ Incorrect !");
         }
 
         function loadAnimator(role) {
-            const chars = getCharacters();
-            const char = chars[role];
+            const char = getCharacters()[role];
             document.getElementById('animatorName').textContent = `${char.emoji} ${char.name}`;
             document.getElementById('animatorRole').textContent = char.role;
             document.getElementById('backstorySummary').textContent = char.backstorySummary;
@@ -649,38 +393,26 @@
         }
 
         function loadTeam(color) {
-            const teamNames = {
-                red: '🔴 Équipe Rouge',
-                blue: '🔵 Équipe Bleue',
-                orange: '🟠 Équipe Orange',
-                yellow: '🟡 Équipe Jaune',
-                pink: '🩷 Équipe Rose Foncé',
-                white: '⚪ Équipe Sans Bandana'
-            };
+            const names = {red:'🔴 Rouge',blue:'🔵 Bleue',orange:'🟠 Orange',yellow:'🟡 Jaune',pink:'🩷 Rose',white:'⚪ Blanche'};
+            const characters = getCharacters();
+            const count = Object.keys(characters).length;
             
-            const chars = getCharacters();
-            const count = Object.keys(chars).length;
-            
-            document.getElementById('teamName').textContent = teamNames[color];
+            document.getElementById('teamName').textContent = 'Équipe ' + names[color];
             document.getElementById('teamSuspectCount').textContent = count;
             
-            let suspectList = '';
-            for (let key in chars) {
-                const char = chars[key];
-                suspectList += `<p>${char.emoji} <strong>${char.name}</strong> - ${char.role.split(' - ')[1]}</p>`;
+            let list = '';
+            for (let key in characters) {
+                const char = characters[key];
+                list += `<p>${char.emoji} ${char.name} - ${char.role.split(' - ')[1]}</p>`;
             }
-            document.getElementById('teamSuspectList').innerHTML = suspectList;
-            
+            document.getElementById('teamSuspectList').innerHTML = list;
             showScreen('teamScreen');
         }
 
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
-            
-            if (screenId === 'animatorSelectScreen') {
-                generateAnimatorRoles();
-            }
+            if (screenId === 'animatorSelectScreen') generateAnimatorRoles();
         }
     </script>
 </body>
